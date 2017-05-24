@@ -10,7 +10,7 @@ addpath('./function');
 
 data_root = '/home/wang/disk_4T/wang_data/original_dataset/SUN';
 anno_root = fullfile(data_root, 'Anno');
-img_root = fullfile(data_root, 'Img');
+img_root = fullfile(data_root, 'Crop');
 
 assert(logical(exist(data_root, 'dir')), 'Not found directory data_root --> %s\n', data_root);
 assert(logical(exist(anno_root, 'dir')), 'Not found directory anno_root --> %s\n', anno_root);
@@ -38,7 +38,7 @@ if exist(no_face_root, 'dir')
 end
 mkdir(no_face_root);
 
-list_txt = fullfile(anno_root, 'list_img.txt');
+list_txt = fullfile(anno_root, 'crop_img.txt');
 face_txt = fullfile(output_root, 'face.txt');
 no_face_txt = fullfile(output_root, 'no_face.txt');
 
@@ -48,9 +48,9 @@ face_fid = fopen(face_txt, 'w');
 no_face_fid = fopen(no_face_txt, 'w');
 
 %minimum size of face
-minsize=20;
+minsize = 20;
 
-caffe_model_path='./model';
+caffe_model_path = './model';
 
 caffe.reset_all();
 if strcmp(mode, 'GPU')
@@ -67,18 +67,25 @@ threshold = [0.6, 0.7, 0.7];
 factor = 0.709;
 
 %load caffe models
-prototxt_dir =strcat(caffe_model_path,'/det1.prototxt');
-model_dir = strcat(caffe_model_path,'/det1.caffemodel');
-PNet=caffe.Net(prototxt_dir,model_dir,'test');
-prototxt_dir = strcat(caffe_model_path,'/det2.prototxt');
-model_dir = strcat(caffe_model_path,'/det2.caffemodel');
-RNet=caffe.Net(prototxt_dir,model_dir,'test');	
-prototxt_dir = strcat(caffe_model_path,'/det3.prototxt');
-model_dir = strcat(caffe_model_path,'/det3.caffemodel');
-ONet=caffe.Net(prototxt_dir,model_dir,'test');
-prototxt_dir =  strcat(caffe_model_path,'/det4.prototxt');
-model_dir =  strcat(caffe_model_path,'/det4.caffemodel');
-LNet = caffe.Net(prototxt_dir,model_dir,'test');
+% For PNet
+prototxt_dir = fullfile(caffe_model_path, 'det1.prototxt');
+model_dir = fullfile(caffe_model_path, 'det1.caffemodel');
+PNet = caffe.Net(prototxt_dir, model_dir, 'test');
+
+% For RNet
+prototxt_dir = fullfile(caffe_model_path, 'det2.prototxt');
+model_dir = fullfile(caffe_model_path, 'det2.caffemodel');
+RNet = caffe.Net(prototxt_dir, model_dir, 'test');
+
+% For ONet	
+prototxt_dir = fullfile(caffe_model_path, 'det3.prototxt');
+model_dir = fullfile(caffe_model_path, 'det3.caffemodel');
+ONet = caffe.Net(prototxt_dir, model_dir, 'test');
+
+% For LNet
+prototxt_dir = fullfile(caffe_model_path, 'det4.prototxt');
+model_dir = fullfile(caffe_model_path, 'det4.caffemodel');
+LNet = caffe.Net(prototxt_dir, model_dir, 'test');
 
 img_list = importdata(list_txt);
 

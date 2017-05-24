@@ -9,9 +9,9 @@ addpath('/home/wang/disk_4T/wang_data/software/mexopencv');
 % add search path for function
 addpath('./function');
 
-data_root = '/home/wang/disk_4T/wang_data/original_dataset/CelebA';
+data_root = '/home/wang/disk_4T/wang_data/original_dataset/CASIA-WebFace';
 anno_root = fullfile(data_root, 'Anno');
-img_root = fullfile(data_root, 'Img/img_celeba');
+img_root = fullfile(data_root, 'Img');
 
 assert(logical(exist(data_root, 'dir')), 'Not found directory data_root --> %s\n', data_root);
 assert(logical(exist(anno_root, 'dir')), 'Not found directory anno_root --> %s\n', anno_root);
@@ -39,7 +39,7 @@ if exist(align_root, 'dir')
 end
 mkdir(align_root);
 
-list_txt = fullfile(anno_root, 'list_attr_celeba_tmp.txt');
+list_txt = fullfile(anno_root, 'img_list.txt');
 face_txt = fullfile(output_root, 'face.txt');
 no_face_txt = fullfile(output_root, 'no_face.txt');
 
